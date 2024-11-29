@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.top-section {
+  display: flex;
+  justify-content: center;
+  width: 90%;
+  margin:0 5%;
+}
+
+.search-bar {
+  width: 15%;
+}
+
+.ShowCrypto-section, .recent-section {
+  table {
+    border: 1px solid grey;
+    width: 90%;
+    margin: 0 5%;
+    thead {
+      tr {
+        th {
+          border:1px solid grey;
+        }
+      }
+    }
+    tbody {
+      tr {
+        td {
+          border: 1px solid #ccc;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
