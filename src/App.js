@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { fetchCryptos } from "./services/cryptoService";
 import CurrencySelector from "./components/CurrencySelector";
-import RecentSearches from "./components/RecentSearches";
 import FilterCrypto from "./components/FilterCrypto";
 import ShowCryptos from "./components/ShowCryptos";
 
@@ -10,10 +9,7 @@ const SUPPORTED_CURRENCIES = ["usd", "eur", "inr", "gbp", "jpy"];
 const App = () => {
   const [cryptos, setCryptos] = useState([]);
   const [filteredCryptos, setFilteredCryptos] = useState([]);
-  const [selectedCrypto, setSelectedCrypto] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState("usd");
-  const [recentSearches, setRecentSearches] = useState([]);
-  const [showRecentSearch, setShowRecentSearches] = useState(false);
   const [error, setError] = useState(null);
   const [loadingPrices, setLoadingPrices] = useState(false);
   const [loadingData, setLoadingData] = useState(false);
@@ -79,11 +75,14 @@ const App = () => {
   };
 
   const handleCurrencyChange = (currency) => {
+    setLoadingPrices(true);
     setSelectedCurrency(currency);
     if (currencyCache.has(currency)) {
       setFilteredCryptos(currencyCache.get(currency));
+      setLoadingPrices(false);
     } else {
       fetchCryptosData(currency);
+      setLoadingPrices(false);
     }
   };
 
@@ -99,25 +98,8 @@ const App = () => {
       <h1>Crypto Price Tracker</h1>
       <div className="top-section">
         <FilterCrypto onFilter={handleFilter} />
-        {selectedCrypto && (
-          <div>
-            <h2>{selectedCrypto.name}</h2>
-            <p>
-              Price: {selectedCrypto.price} {selectedCurrency.toUpperCase()}
-            </p>
-          </div>
-        )}
         <CurrencySelector onChange={handleCurrencyChange} />
       </div>
-      {showRecentSearch && (
-        <RecentSearches
-          searches={recentSearches}
-          onSelect={(crypto) => {
-            setSelectedCrypto(crypto);
-            handleCurrencyChange(selectedCurrency);
-          }}
-        />
-      )}
       <div className="data-section">
         {(loadingData || loadingPrices) && (
           <p
